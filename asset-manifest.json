@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/KPI-Schedule/static/css/main.635249e7.css",
-    "main.js": "/KPI-Schedule/static/js/main.7502c173.js",
+    "main.js": "/KPI-Schedule/static/js/main.b8f965f9.js",
     "static/js/787.ba13c114.chunk.js": "/KPI-Schedule/static/js/787.ba13c114.chunk.js",
     "index.html": "/KPI-Schedule/index.html",
     "main.635249e7.css.map": "/KPI-Schedule/static/css/main.635249e7.css.map",
-    "main.7502c173.js.map": "/KPI-Schedule/static/js/main.7502c173.js.map",
+    "main.b8f965f9.js.map": "/KPI-Schedule/static/js/main.b8f965f9.js.map",
     "787.ba13c114.chunk.js.map": "/KPI-Schedule/static/js/787.ba13c114.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.635249e7.css",
-    "static/js/main.7502c173.js"
+    "static/js/main.b8f965f9.js"
   ]
 }
