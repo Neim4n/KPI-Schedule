@@ -1,0 +1,126 @@
+.header {
+  width: 100%;
+
+  .header__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 90%;
+    padding: 20px 0;
+    font-size: 20px;
+    margin: 0 auto;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.4);
+    font-weight: 500;
+
+    .header__logo {
+      color: $light-blue;
+      font-weight: 600;
+    }
+
+    .header__links {
+      display: flex;
+      flex-direction: row;
+
+      .links__decoration {
+        margin: 0 10px;
+        display: block;
+        height: 25px;
+        width: 2px;
+        background: $light-blue;
+      }
+
+      .links__item-link {
+        transition: 0.1s ease-in-out all;
+
+        &:hover {
+          .item-link__name {
+            text-decoration: underline;
+          }
+        }
+
+        &.active {
+          .item-link__container {
+            color: $light-blue;
+
+            .item-link__decoration {
+              background: $light-blue;
+            }
+          }
+        }
+
+        .item-link__container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          color: $blue;
+
+          .item-link__decoration {
+            display: block;
+            height: 25px;
+            width: 1px;
+            background: $blue;
+            transition: 0.1s ease-in-out all;
+          }
+
+          .item-link__name {
+            margin: 0 10px;
+          }
+
+          .item-link__emoji {
+            margin: 0 10px;
+          }
+        }
+      }
+    }
+
+    .header__date {
+    }
+  }
+}
+
+@media only screen and(max-width: 767.98px) {
+  .header {
+    .header__container {
+      font-size: 18px;
+
+      .header__links {
+        font-size: 16px;
+
+        .links__item-link {
+          .item-link__container {
+            .item-link__name {
+              margin: 0 4px;
+              max-width: 0;
+              overflow: hidden;
+              opacity: 0;
+              transition: 0.2s ease-in-out opacity;
+            }
+
+            .item-link__emoji {
+              margin: 0 5px;
+            }
+
+            .item-link__decoration {
+              height: 18px;
+            }
+          }
+
+          &.active {
+
+            .item-link__container {
+              .item-link__name {
+                max-width: 100%;
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+
+      .header__date {
+        display: none;
+      }
+    }
+  }
+}

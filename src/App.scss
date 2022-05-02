@@ -1,0 +1,19 @@
+@import "./styles/nullstyle.css";
+@import "./styles/variables";
+@import "./styles/fonts.css";
+#root{
+  height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Exo 2', sans-serif;
+  width: 100%;
+
+  min-height: 100%;
+  background: ghostwhite;
+
+  @import "./styles/components/header";
+  @import "./styles/components/main";
+}

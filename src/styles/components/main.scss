@@ -1,0 +1,443 @@
+@import "./../variables";
+
+.main {
+  flex: 1 1 auto;
+
+  .main__container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 20px 0;
+    //Main navigation
+    .main__navigation {
+      z-index: 20;
+      width: 90%;
+      margin: 0 auto;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+
+      &.active {
+        &:after {
+          content: "";
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      //Select Group
+      .navigation__select-container {
+        width: 220px;
+        z-index: 100;
+
+        .select__control {
+          &--is-focused {
+            border-color: $light-blue;
+          }
+
+          .select__value-container {
+          }
+
+          .select__indicators {
+          }
+        }
+
+        .select__menu {
+          .select__menu-list {
+            .select__option {
+              &--is-selected {
+                background: $light-blue !important;
+
+                a {
+                  color: $light-black;
+                }
+              }
+
+              &--is-focused {
+                background: $sky-color;
+              }
+            }
+          }
+        }
+      }
+
+      //Button Open-Settings
+      .navigation__button-open-setting {
+        z-index: 100;
+        outline: none;
+        border: 0;
+        font-size: 20px;
+        background: none;
+        margin-right: 10px;
+        transition: 0.2s ease-in-out all;
+
+        &.active {
+          transform: rotate(45deg);
+        }
+      }
+
+      //Settings-window
+      .navigation__settings-window {
+        z-index: 90;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+
+        &.active {
+          .settings-window__container {
+            transform: translate(0, 100%) rotateX(0deg);
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+
+        .settings-window__container {
+          width: 288px;
+          padding: 20px;
+          visibility: hidden;
+          opacity: 0;
+          border: 1px solid $light-blue;
+          border-radius: 10px;
+          box-shadow: 0 0 8px 1px rgb(113 105 105 / 30%);
+          background: rgba(248, 248, 255, 0.95);
+          transform: translate(0, 60%) rotateX(30deg);
+          transition: 0.2s ease-in-out all;
+          position: relative;
+
+          &:after {
+            z-index: 10;
+            content: "";
+            position: absolute;
+            top: -14px;
+            left: 36px;
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 14px solid rgba(248, 248, 255, 0.95);
+          }
+          &:before {
+            z-index: 9;
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 35px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 14px solid #5ca1d4;
+          }
+
+          .settings-window__fun-mode {
+            label {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+
+              .fun-mode__name {
+                font-size: 15px;
+                cursor: pointer;
+                margin-right: 10px;
+              }
+            }
+          }
+        }
+      }
+
+      //Loader
+      .navigation__loader {
+        display: block;
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 1;
+        visibility: visible;
+        transition: 0.3s all;
+        z-index: 90;
+        overflow: hidden;
+
+        .loader {
+          width: 100%;
+          height: 6px;
+          background: $light-blue;
+          transform: translate(-100%, 0);
+          animation: 1s slide infinite linear;
+        }
+
+        &.done {
+          opacity: 0;
+          visibility: hidden;
+
+          .loader {
+            animation: 0s slide infinite linear;
+          }
+        }
+
+        @keyframes slide {
+          from {
+            transform: translate(-150%, 0);
+          }
+          to {
+            transform: translate(200%, 0);
+          }
+        }
+      }
+    }
+
+    //Main content
+    .main__content {
+      width: 90%;
+      margin: 0 auto;
+      padding: 0 15px 0 0;
+
+      .content__full-schedule {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        //Week swiper
+        .full-schedule__week {
+          max-width: 400px;
+          width: 100%;
+          text-align: center;
+          margin-bottom: 30px;
+
+          //Swiper
+          .swiper {
+            .swiper-button-next, .swiper-button-prev {
+              color: $light-blue;
+            }
+
+            .swiper-wrapper {
+              .week__name {
+                font-size: 25px;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+
+        //Schedule swiper
+        .full-schedule__table-container {
+          display: grid;
+          grid-template-columns: 17px minmax(220px, 1fr);
+          grid-gap: 5px;
+          width: 100%;
+
+          .full-schedule__time-column {
+            display: grid;
+            padding-top: 22px;
+            grid-template-rows:repeat(6, 130px);
+            grid-gap: 5px;
+
+            .table__lesson-time {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 17px;
+              border-radius: 10px;
+
+              &.closest-lesson {
+                background: $yellow;
+
+                &.today-lesson {
+                  background: $pink;
+                }
+              }
+
+              &.current-lesson {
+                background: $light-blue;
+              }
+
+              span {
+                font-weight: 600;
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+              }
+            }
+          }
+
+          //Schedule-table
+          .full-schedule__table {
+            width: 100%;
+            margin: 0 auto;
+            min-height: 150px;
+            font-size: 15px;
+
+            .table__column {
+              display: grid;
+              grid-gap: 5px;
+              grid-template-columns: 1fr;
+              grid-template-rows: 17px repeat(6, 1fr);
+
+              .table__weekday {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 17px;
+                border-radius: 10px;
+                grid-row: 1;
+                font-weight: 600;
+
+                &.today-weekday {
+                  background: $light-blue;
+
+                  &.closest-lesson {
+                    background: $pink;
+                  }
+                }
+
+                &.closest-lesson {
+                  background: $yellow;
+                }
+              }
+
+              //Z-index
+              @for $i from 1 through 6 {
+                .table__lesson:nth-child(#{$i}) {
+                  z-index: 100 - $i;
+                }
+              }
+
+              .table__lesson {
+                height: 130px;
+
+                &:hover {
+                  z-index: 100;
+
+                  .lesson__container {
+                    // height: auto;
+                    max-height: 200px;
+                  }
+                }
+
+                .lesson__container {
+                  position: relative;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  overflow: hidden;
+                  width: 100%;
+                  height: auto;
+                  min-height: 100%;
+                  max-height: 100%;
+                  padding: 10px 10px 5px;
+                  border-radius: 10px;
+                  color: #232323;
+                  background: $light-grey;
+                  transition: 0.1s ease-in-out all;
+                  z-index: -1;
+
+                  &.closest-lesson {
+                    background: $yellow;
+
+                    &:after {
+                      box-shadow: inset 0px -3px 3px 0px $yellow;
+                    }
+                  }
+
+                  &.filtered {
+                    opacity: 0.4;
+                  }
+
+                  &.empty-lesson {
+                    &:after {
+                      content: none;
+                    }
+
+                    opacity: 0.2 !important;
+                  }
+
+                  &.fun-mode-lesson {
+                    &.empty-lesson {
+                      background: $light-grey;
+                    }
+
+                    &:after {
+                      content: none;
+                    }
+
+                    background: $sky-color;
+                  }
+
+                  &.today-lesson {
+                    background: $light-blue;
+
+                    &:after {
+                      box-shadow: inset 0px -3px 3px 0px $light-blue;
+                    }
+
+                    &.fun-mode-lesson {
+                      background: $light-blue;
+
+                      &:after {
+                        box-shadow: inset 0px -3px 3px 0px $light-blue;
+                      }
+                    }
+
+                    &.closest-lesson {
+                      background: $pink;
+
+                      &:after {
+                        box-shadow: inset 0px -3px 3px 0px $pink;
+                      }
+                    }
+                  }
+
+                  &:after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 5px;
+                    box-shadow: inset 0px -3px 3px 0px #ebebeb;
+                  }
+
+                  .lesson__name {
+                    font-size: 16px;
+                    font-weight: 600;
+                  }
+
+                  .lesson__links {
+                    flex: 1 1 auto;
+
+                    a {
+                      color: black;
+                      opacity: 0.8;
+
+                      &:hover {
+                        opacity: 1;
+                        text-decoration: underline;
+                      }
+                    }
+                  }
+
+                  .lesson__type {
+                    cursor: pointer;
+                    align-self: flex-end;
+                    opacity: 0.5;
+
+                    &:hover {
+                      opacity: 1;
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

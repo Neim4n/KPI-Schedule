@@ -1,38 +1,457 @@
-.App {
-  text-align: center;
+@import "./styles/nullstyle.css";
+@import "./styles/fonts.css";
+#root {
+  height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  font-family: "Exo 2", sans-serif;
+  width: 100%;
+  min-height: 100%;
+  background: ghostwhite;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.wrapper .header {
+  width: 100%;
+}
+.wrapper .header .header__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  padding: 20px 0;
+  font-size: 20px;
+  margin: 0 auto;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.4);
+  font-weight: 500;
+}
+.wrapper .header .header__container .header__logo {
+  color: #5ca1d4;
+  font-weight: 600;
+}
+.wrapper .header .header__container .header__links {
+  display: flex;
+  flex-direction: row;
+}
+.wrapper .header .header__container .header__links .links__decoration {
+  margin: 0 10px;
+  display: block;
+  height: 25px;
+  width: 2px;
+  background: #5ca1d4;
+}
+.wrapper .header .header__container .header__links .links__item-link {
+  transition: 0.1s ease-in-out all;
+}
+.wrapper .header .header__container .header__links .links__item-link:hover .item-link__name {
+  text-decoration: underline;
+}
+.wrapper .header .header__container .header__links .links__item-link.active .item-link__container {
+  color: #5ca1d4;
+}
+.wrapper .header .header__container .header__links .links__item-link.active .item-link__container .item-link__decoration {
+  background: #5ca1d4;
+}
+.wrapper .header .header__container .header__links .links__item-link .item-link__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #4d6d9a;
+}
+.wrapper .header .header__container .header__links .links__item-link .item-link__container .item-link__decoration {
+  display: block;
+  height: 25px;
+  width: 1px;
+  background: #4d6d9a;
+  transition: 0.1s ease-in-out all;
+}
+.wrapper .header .header__container .header__links .links__item-link .item-link__container .item-link__name {
+  margin: 0 10px;
+}
+.wrapper .header .header__container .header__links .links__item-link .item-link__container .item-link__emoji {
+  margin: 0 10px;
+}
+@media only screen and (max-width: 767.98px) {
+  .wrapper .header .header__container {
+    font-size: 18px;
+  }
+  .wrapper .header .header__container .header__links {
+    font-size: 16px;
+  }
+  .wrapper .header .header__container .header__links .links__item-link .item-link__container .item-link__name {
+    margin: 0 4px;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: 0.2s ease-in-out opacity;
+  }
+  .wrapper .header .header__container .header__links .links__item-link .item-link__container .item-link__emoji {
+    margin: 0 5px;
+  }
+  .wrapper .header .header__container .header__links .links__item-link .item-link__container .item-link__decoration {
+    height: 18px;
+  }
+  .wrapper .header .header__container .header__links .links__item-link.active .item-link__container .item-link__name {
+    max-width: 100%;
+    opacity: 1;
+  }
+  .wrapper .header .header__container .header__date {
+    display: none;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.wrapper .main {
+  flex: 1 1 auto;
+}
+.wrapper .main .main__container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 20px 0;
+}
+.wrapper .main .main__container .main__navigation {
+  z-index: 20;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+.wrapper .main .main__container .main__navigation.active:after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.wrapper .main .main__container .main__navigation .navigation__select-container {
+  width: 220px;
+  z-index: 100;
+}
+.wrapper .main .main__container .main__navigation .navigation__select-container .select__control--is-focused {
+  border-color: #5ca1d4;
+}
+.wrapper .main .main__container .main__navigation .navigation__select-container .select__menu .select__menu-list .select__option--is-selected {
+  background: #5ca1d4 !important;
+}
+.wrapper .main .main__container .main__navigation .navigation__select-container .select__menu .select__menu-list .select__option--is-selected a {
+  color: #5f6366;
+}
+.wrapper .main .main__container .main__navigation .navigation__select-container .select__menu .select__menu-list .select__option--is-focused {
+  background: #90cbf3;
+}
+.wrapper .main .main__container .main__navigation .navigation__button-open-setting {
+  z-index: 100;
+  outline: none;
+  border: 0;
+  font-size: 20px;
+  background: none;
+  margin-right: 10px;
+  transition: 0.2s ease-in-out all;
+}
+.wrapper .main .main__container .main__navigation .navigation__button-open-setting.active {
+  transform: rotate(45deg);
+}
+.wrapper .main .main__container .main__navigation .navigation__settings-window {
+  z-index: 90;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.wrapper .main .main__container .main__navigation .navigation__settings-window.active .settings-window__container {
+  transform: translate(0, 100%) rotateX(0deg);
+  visibility: visible;
+  opacity: 1;
+}
+.wrapper .main .main__container .main__navigation .navigation__settings-window .settings-window__container {
+  width: 288px;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  border: 1px solid #5ca1d4;
+  border-radius: 10px;
+  box-shadow: 0 0 8px 1px rgba(113, 105, 105, 0.3);
+  background: rgba(248, 248, 255, 0.95);
+  transform: translate(0, 60%) rotateX(30deg);
+  transition: 0.2s ease-in-out all;
+  position: relative;
+}
+.wrapper .main .main__container .main__navigation .navigation__settings-window .settings-window__container:after {
+  z-index: 10;
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 36px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 14px solid rgba(248, 248, 255, 0.95);
+}
+.wrapper .main .main__container .main__navigation .navigation__settings-window .settings-window__container:before {
+  z-index: 9;
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 35px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 14px solid #5ca1d4;
+}
+.wrapper .main .main__container .main__navigation .navigation__settings-window .settings-window__container .settings-window__fun-mode label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.wrapper .main .main__container .main__navigation .navigation__settings-window .settings-window__container .settings-window__fun-mode label .fun-mode__name {
+  font-size: 15px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.wrapper .main .main__container .main__navigation .navigation__loader {
+  display: block;
+  width: 100%;
+  height: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s all;
+  z-index: 90;
+  overflow: hidden;
+}
+.wrapper .main .main__container .main__navigation .navigation__loader .loader {
+  width: 100%;
+  height: 6px;
+  background: #5ca1d4;
+  transform: translate(-100%, 0);
+  animation: 1s slide infinite linear;
+}
+.wrapper .main .main__container .main__navigation .navigation__loader.done {
+  opacity: 0;
+  visibility: hidden;
+}
+.wrapper .main .main__container .main__navigation .navigation__loader.done .loader {
+  animation: 0s slide infinite linear;
+}
+@keyframes slide {
+  from {
+    transform: translate(-150%, 0);
+  }
+  to {
+    transform: translate(200%, 0);
+  }
+}
+.wrapper .main .main__container .main__content {
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 15px 0 0;
+}
+.wrapper .main .main__container .main__content .content__full-schedule {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__week {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__week .swiper .swiper-button-next, .wrapper .main .main__container .main__content .content__full-schedule .full-schedule__week .swiper .swiper-button-prev {
+  color: #5ca1d4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__week .swiper .swiper-wrapper .week__name {
+  font-size: 25px;
+  font-weight: 600;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container {
+  display: grid;
+  grid-template-columns: 17px minmax(220px, 1fr);
+  grid-gap: 5px;
+  width: 100%;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__time-column {
+  display: grid;
+  padding-top: 22px;
+  grid-template-rows: repeat(6, 130px);
+  grid-gap: 5px;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__time-column .table__lesson-time {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 17px;
+  border-radius: 10px;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__time-column .table__lesson-time.closest-lesson {
+  background: #f2d14f;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__time-column .table__lesson-time.closest-lesson.today-lesson {
+  background: #f58786;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__time-column .table__lesson-time.current-lesson {
+  background: #5ca1d4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__time-column .table__lesson-time span {
+  font-weight: 600;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 150px;
+  font-size: 15px;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 17px repeat(6, 1fr);
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 17px;
+  border-radius: 10px;
+  grid-row: 1;
+  font-weight: 600;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__weekday.today-weekday {
+  background: #5ca1d4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__weekday.today-weekday.closest-lesson {
+  background: #f58786;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__weekday.closest-lesson {
+  background: #f2d14f;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:nth-child(1) {
+  z-index: 99;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:nth-child(2) {
+  z-index: 98;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:nth-child(3) {
+  z-index: 97;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:nth-child(4) {
+  z-index: 96;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:nth-child(5) {
+  z-index: 95;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:nth-child(6) {
+  z-index: 94;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson {
+  height: 130px;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:hover {
+  z-index: 100;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson:hover .lesson__container {
+  max-height: 200px;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  max-height: 100%;
+  padding: 10px 10px 5px;
+  border-radius: 10px;
+  color: #232323;
+  background: #ebebeb;
+  transition: 0.1s ease-in-out all;
+  z-index: -1;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.closest-lesson {
+  background: #f2d14f;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.closest-lesson:after {
+  box-shadow: inset 0px -3px 3px 0px #f2d14f;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.filtered {
+  opacity: 0.4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.empty-lesson {
+  opacity: 0.2 !important;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.empty-lesson:after {
+  content: none;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.fun-mode-lesson {
+  background: #90cbf3;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.fun-mode-lesson.empty-lesson {
+  background: #ebebeb;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.fun-mode-lesson:after {
+  content: none;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.today-lesson {
+  background: #5ca1d4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.today-lesson:after {
+  box-shadow: inset 0px -3px 3px 0px #5ca1d4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.today-lesson.fun-mode-lesson {
+  background: #5ca1d4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.today-lesson.fun-mode-lesson:after {
+  box-shadow: inset 0px -3px 3px 0px #5ca1d4;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.today-lesson.closest-lesson {
+  background: #f58786;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container.today-lesson.closest-lesson:after {
+  box-shadow: inset 0px -3px 3px 0px #f58786;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container:after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  box-shadow: inset 0px -3px 3px 0px #ebebeb;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container .lesson__name {
+  font-size: 16px;
+  font-weight: 600;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container .lesson__links {
+  flex: 1 1 auto;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container .lesson__links a {
+  color: black;
+  opacity: 0.8;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container .lesson__links a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container .lesson__type {
+  cursor: pointer;
+  align-self: flex-end;
+  opacity: 0.5;
+}
+.wrapper .main .main__container .main__content .content__full-schedule .full-schedule__table-container .full-schedule__table .table__column .table__lesson .lesson__container .lesson__type:hover {
+  opacity: 1;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/*# sourceMappingURL=App.css.map */

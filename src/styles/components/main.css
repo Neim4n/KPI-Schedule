@@ -1,0 +1,9 @@
+.main {
+  flex: 1 1 auto;
+}
+.main .main__container .fullSchedule {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/*# sourceMappingURL=main.css.map */
