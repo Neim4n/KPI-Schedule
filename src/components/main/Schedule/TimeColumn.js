@@ -9,18 +9,25 @@ let LESSON_TIMES =
         ["18:30", "20:05"]]
 
 function TimeColumn({closest, week}) {
-    let {lesson_number, day_number, lesson_week} = closest;
+
     let m = moment();
     let currentTime = LESSON_TIMES.find((time) =>
         m.isBetween(moment(time[0], "HH:mm:ss"), moment(time[1], "HH:mm:ss")) || m.isBefore(moment(time[0], "HH:mm:ss"))
     )
+
+    function addClasses(index) {
+        if (!closest) return "";
+        let {lesson_number, day_number, lesson_week} = closest;
+        return ` ${index === lesson_number - 1 ? "closest-lesson" : ""} ${m.day() == day_number && lesson_week == week + 1 ? "today-lesson" : ""}`;
+    }
+
     return (
         <div className="full-schedule__time-column">
             {
                 LESSON_TIMES.map((time, index) => {
                     return (
                         <div key={`time_${index}`}
-                             className={`table__lesson-time ${time === currentTime ? "current-lesson" : ""} ${index === lesson_number - 1 ? "closest-lesson" : ""} ${m.day() == day_number && lesson_week == week + 1 ? "today-lesson" : ""}`}>
+                             className={`table__lesson-time ${time === currentTime ? "current-lesson" : ""} ${addClasses(index)}`}>
                             <span>{time[0]}</span>
                         </div>)
                 })

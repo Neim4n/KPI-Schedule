@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setFilter} from "../../../redux/actions";
 
 function Lesson({data}) {
-    let {lesson_name, teachers, groups, lesson_type, addArticles} = data;
+    let {lesson_name, teachers, groups, lesson_type, addClasses} = data;
 
     const {funMode, filter} = useSelector(state => {
         return state.appReducer;
@@ -17,13 +17,13 @@ function Lesson({data}) {
     }
 
     //Lesson classes
-    let className = " lesson__container " + (addArticles || "")
+    let className = " lesson__container " + (addClasses || "")
         + (filter && lesson_type !== filter ? " filtered " : "")
-        + (!funMode && addArticles?.includes("fun-mode-lesson") ? " empty-lesson " : "");
+        + (!funMode && addClasses?.includes("fun-mode-lesson") ? " empty-lesson " : "");
 
 
     //Lesson name
-    lesson_name = (!funMode && !addArticles?.includes("fun-mode-lesson")) || funMode ? lesson_name : "";
+    lesson_name = (!funMode && !addClasses?.includes("fun-mode-lesson")) || funMode ? lesson_name : "";
 
     //Lesson links groups/teachers
     let lessonLinks;

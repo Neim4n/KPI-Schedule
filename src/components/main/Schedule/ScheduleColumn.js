@@ -2,7 +2,7 @@ import Lesson from "./Lesson";
 import moment from "moment";
 
 function ScheduleColumn({weekday, lessons, day}) {
-    let isClosest = lessons.find(lesson => lesson.addArticles.includes("closest-lesson"));
+    let isClosest = lessons.find(lesson => lesson.addClasses.includes("closest-lesson"));
     return (
         <div className="table__column">
             <div

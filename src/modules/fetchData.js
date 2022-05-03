@@ -1,24 +1,27 @@
 import moment from "moment";
 
-//Fetch data for Schedule
-export async function fetchScheduleData(way, id) {
-    let week = await fetch(`https://api.rozklad.org.ua/v2/weeks`)
+//Fetch week for Schedule
+export async function fetchScheduleWeek() {
+    return await fetch(`https://api.rozklad.org.ua/v2/weeks`)
         .then(res => res.json())
         .then(json => json.data)
-        .then(data => +!(data - 1));
+        .then(data => +!(data - 1))
+        .catch(() => 0);
+}
 
-    let closest;
+//Fetch data for Schedule
+export async function fetchScheduleData(week, way, id) {
+    let closest = null;
     let schedule = await fetch(`https://api.rozklad.org.ua/v2/${way}/${id}/lessons`)
         .then(res => res.json())
-        .then(json => formatToArray(json.data, week))
+        .then(json => formatToObject(json.data, week))
+        .then(data => fillByEmptyLessons(data))
         .then(data => {
-            fillByEmptyLessons(data);
             closest = findClosestLesson(data, week)
             return data;
-        })
-        .catch(createEmptySchedule(week));
+        }).catch(() => createEmptySchedule(week));
 
-    return {week, schedule, closest}
+    return {schedule, closest}
 }
 
 function createEmptySchedule(week) {
@@ -26,7 +29,7 @@ function createEmptySchedule(week) {
     for (let i = 1; i <= 12; i++) {
         let lessons = [...Array(6)].map((lesson, index) => {
             return {
-                addArticles: "empty",
+                addClasses: "empty-lesson",
                 day_number: i,
                 lesson_full_name: "",
                 lesson_name: "",
@@ -46,12 +49,16 @@ function createEmptySchedule(week) {
     return result;
 }
 
-function formatToArray(data, week) {
+//Format response to comfortable form
+function formatToObject(data, week) {
     let result = {};
     data.forEach((lesson) => {
+        //Every lesson add "addClasses"
         let {day_number, lesson_week, lesson_type} = lesson;
-        lesson.addArticles = "";
+        lesson.addClasses = "";
         lesson.lesson_type = lesson_type ? lesson_type[0].toUpperCase() + lesson_type.slice(1) : "";
+
+        //Formed property for result
         let currentDay = lesson_week - 1 === week ? +day_number : +day_number + 6;
         let lessonsArray = result[currentDay]?.lessons ? [...result[currentDay].lessons, lesson] : [lesson];
         result[currentDay] = {
@@ -59,6 +66,7 @@ function formatToArray(data, week) {
         }
     })
 
+    //if days < 12
     if (Object.values(result).length < 12) {
         for (let i = 1; i <= 12; i++) {
             if (!result.hasOwnProperty(i)) {
@@ -73,6 +81,7 @@ function formatToArray(data, week) {
     return result;
 }
 
+//FUnction for find closest and today lessons
 function findClosestLesson(data, week) {
     let m = moment();
     let day = m.day();
@@ -89,10 +98,13 @@ function findClosestLesson(data, week) {
     for (let i = 0; i < days.length && !isClosestFound; i++) {
         let {day_number, week_number, lessons} = days[i];
 
+        //Update time
         if (i === currentDay) m = moment("0:00", "HH:mm");
 
-        if (week_number === week && day_number === currentDay && day !== 0) lessons.forEach((lesson) => lesson.addArticles += " today-lesson")
+        //Today lesson
+        if (week_number === week && day_number === currentDay && day !== 0) lessons.forEach((lesson) => lesson.addClasses += " today-lesson")
 
+        //Closest lesson
         if (day_number >= currentDay) {
             closest = lessons.find(({
                                         time_start,
@@ -102,13 +114,14 @@ function findClosestLesson(data, week) {
         //Finish loop
         if (closest) {
             isClosestFound = true;
-            closest.addArticles += " closest-lesson";
+            closest.addClasses += " closest-lesson";
             break;
         }
     }
     return closest;
 }
 
+//Fill lesson arrays by empty lessons
 function fillByEmptyLessons(data) {
     let days = Object.values(data);
     days.forEach((day) => {
@@ -125,11 +138,13 @@ function fillByEmptyLessons(data) {
         }
         day.lessons = Object.values(lessonsObject);
     })
+    return data;
 }
 
+//Lessons object templates for empty lessons and lessons with fun mode
 function lessonObjectTemplate(lesson_number, day_number, lesson_week, days) {
     let customLesson = {
-        addArticles: "empty-lesson",
+        addClasses: "empty-lesson",
         day_number,
         lesson_full_name: "",
         lesson_name: "",
@@ -140,28 +155,28 @@ function lessonObjectTemplate(lesson_number, day_number, lesson_week, days) {
         teacher_name: "",
     }
     if (lesson_number != 1 && lesson_number != 6 && days[day_number - 1].lessons.length < 6) {
-        let prevLesson = days[day_number - 1].lessons.some((lesson) => lesson.lesson_number < lesson_number/* && lesson.addArticles !== "empty" && lesson.addArticles !== "white"*/);
-        let nextLesson = days[day_number - 1].lessons.some((lesson) => lesson.lesson_number > lesson_number /*&& lesson.addArticles !== "empty" && lesson.addArticles !== "white"*/);
+        let prevLesson = days[day_number - 1].lessons.some((lesson) => lesson.lesson_number < lesson_number/* && lesson.addClasses !== "empty" && lesson.addClasses !== "white"*/);
+        let nextLesson = days[day_number - 1].lessons.some((lesson) => lesson.lesson_number > lesson_number /*&& lesson.addClasses !== "empty" && lesson.addClasses !== "white"*/);
         if (prevLesson && nextLesson) {
-            customLesson.addArticles = " fun-mode-lesson";
+            customLesson.addClasses = " fun-mode-lesson";
             customLesson.lesson_full_name = "Віконце 🤘🏼";
             customLesson.lesson_name = "Віконце 🤘🏼";
         }
     }
     if (lesson_number == 1) {
-        customLesson.addArticles = " fun-mode-lesson";
+        customLesson.addClasses = " fun-mode-lesson";
         customLesson.lesson_full_name = "Поспи ще трохи 😴";
         customLesson.lesson_name = "Поспи ще трохи 😴";
     }
     if (lesson_number == 1 && !days[day_number - 1].lessons.length) {
-        customLesson.addArticles = " fun-mode-lesson";
+        customLesson.addClasses = " fun-mode-lesson";
         customLesson.lesson_full_name = "Вихідний 🎉";
         customLesson.lesson_name = "Вихідний 🎉";
         customLesson.lesson_number = "1";
     }
     if (lesson_number == 6 && (day_number == 6 || !days[day_number]?.lessons.length)) {
-        customLesson.addArticles = " fun-mode-lesson";
-        customLesson.lesson_full_name = "Збирайся на поляну 💃";
+        customLesson.addClasses = " fun-mode-lesson";
+        customLesson.lesson_full_name = "Збирайся на Поляну 💃";
         customLesson.lesson_name = "Збирайся на поляну 💃";
     }
     return customLesson;
@@ -201,30 +216,23 @@ export async function fetchSelectData(id, way) {
 
 //Fetch teachers for select
 export async function fetchSelectTeachers(inputValue) {
-    let result = [];
-    await fetch(`https://api.rozklad.org.ua/v2/teachers/?search={'query': '${inputValue}'}`)
+    return await fetch(`https://api.rozklad.org.ua/v2/teachers/?search={'query': '${inputValue}'}`)
         .then(res => res.json())
         .then(json => json.data)
-        .then(data => {
-            data.forEach(t => {
-                result.push({
-                    label: t.teacher_name,
-                    value: t.teacher_id,
-                })
-            })
-        })
-    return result;
+        .then(data => data.map(t => ({label: t.teacher_name, value: t.teacher_id,})))
+        .catch(() => []);
 }
 
 //Fetch default Teacher
 export async function getDefaultTeacher(id) {
-    let teacher = {}
-    await fetch(`https://api.rozklad.org.ua/v2/teachers/${id}`)
+    return await fetch(`https://api.rozklad.org.ua/v2/teachers/${id}`)
         .then(res => res.json())
         .then(json => json.data)
         .then(({teacher_name, teacher_id}) => {
-            teacher.label = teacher_name
-            teacher.value = teacher_id
-        });
-    return teacher;
+            return {
+                label: teacher_name,
+                value: teacher_id
+            }
+        }).catch(() => ({}));
+
 }

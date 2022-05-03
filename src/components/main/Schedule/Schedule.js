@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import {loadOff, loadOn} from "../../../redux/actions";
-import {fetchScheduleData} from "../../../modules/fetchData";
+import {fetchScheduleData, fetchScheduleWeek} from "../../../modules/fetchData";
 import ScheduleColumn from "./ScheduleColumn";
 //Moment
 import moment from 'moment';
@@ -34,20 +34,32 @@ function Schedule({id, way}) {
 
     //Schedule/Week state
     const [schedule, setSchedule] = useState({});
-    const [week, setWeek] = useState("");
+    const [week, setWeek] = useState(null);
     const [closest, setClosest] = useState({});
 
     const dispatch = useDispatch();
     //Fetch Schedule/Week
     useEffect(() => {
-        dispatch(loadOn());
-        fetchScheduleData(way, id)
-            .then(({week, schedule, closest}) => {
-                setWeek(week)
-                setSchedule(schedule)
-                setClosest(closest)
-            })
-            .then(() => dispatch(loadOff()));
+        async function fetchData() {
+            dispatch(loadOn());
+
+            ///Week
+            let fetchedWeek;
+            if (!week) {
+                fetchedWeek = await fetchScheduleWeek();
+                await setWeek(fetchedWeek)
+            }else{
+                fetchedWeek = week;
+            }
+
+            //Schedule and closest
+            let data = await fetchScheduleData(fetchedWeek, way, id);
+            setSchedule(data.schedule)
+            setClosest(data.closest)
+            dispatch(loadOff());
+        }
+
+        fetchData();
     }, [location, id])
 
     //Controlled Swiper
