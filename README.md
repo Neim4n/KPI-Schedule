@@ -23,7 +23,7 @@
 
  #### API
 
- These APIs help me make my site more flexible and easier to use. With the help of these APIs, I was able to get up-to-date information about currencies and the situation in the world.
+ These APIs help me make my site more flexible and easier to use. With the help of these APIs, I was able to get up-to-date information about schedule of KPI.
 
 - [ApiRozklad](https://api.rozklad.org.ua/)
 
